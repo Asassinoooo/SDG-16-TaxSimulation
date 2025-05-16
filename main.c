@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>
 //batas  include
 
 //batas struct
@@ -14,8 +14,27 @@ void printMainMenu(){
 int main(){
     int pilihan;
     puts("Welcome to Simulasi Pajak Indonesia");
+    mainMenu: 
     printMainMenu();
     scanf("%d",&pilihan);
-    
+    switch(pilihan){
+        case 1:
+            //function pajak penghasilan
+            break;
+
+        case 2:
+            //function pajak penghasilan UMKM
+            break;
+
+        case 3:
+            //function untuk print data yang sudah dikumpulkan
+            break;
+
+        default:
+        puts("Invalid choice\n");
+        goto mainMenu;
+        break;
+
+    }
     return 0;
 }
