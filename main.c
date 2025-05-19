@@ -76,7 +76,7 @@ void hitungPajakUMKM() {
     printf("Masukkan laba bersih: ");
     scanf("%llu", &umkm.labaBersih);
 
-    if(umkm.omzetUsaha > 400000000000){
+    if(umkm.omzetUsaha > 4800000000){
         umkm.badanUsaha = TRUE;
         umkm.PPN = umkm.omzetUsaha * 11 / 100;
         umkm.PPH = umkm.labaBersih * 22 / 100;
