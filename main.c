@@ -46,6 +46,7 @@ void printMainMenu(){
     puts("1. Hitung pajak penghasilan\n");
     puts("2. Hitung pajak penghasilan UMKM\n");
     puts("3. Rekapitulasi Pajak\n");
+    puts("4. Exit Program\n");
     printf("Pilihan anda: ");
 }
 
@@ -115,12 +116,18 @@ int main(){
         case 3:
             //function untuk print data yang sudah dikumpulkan
             break;
-
+        
+        case 4:
+            puts("program closed\n");
+            return 0;
+            break;
+            
         default:
         puts("Invalid choice\n");
         goto mainMenu;
         break;
 
     }
+    goto mainMenu;
     return 0;
 }
