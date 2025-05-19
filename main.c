@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 //batas  include
 typedef enum{
     FALSE = 0,
@@ -46,6 +48,53 @@ void printMainMenu(){
     puts("3. Rekapitulasi Pajak\n");
     printf("Pilihan anda: ");
 }
+
+void hitungPajakUMKM() {
+    UMKM umkm;
+
+    printf("Masukkan nama lengkap: ");
+    getchar();
+    fgets(umkm.pengusaha.namaLengkap, sizeof(umkm.pengusaha.namaLengkap), stdin);
+    strtok(umkm.pengusaha.namaLengkap, "\n");
+
+    printf("Masukkan NIK: ");
+    scanf("%llu", &umkm.pengusaha.nik);
+
+    printf("Masukkan nama usaha: ");
+    getchar();
+    fgets(umkm.namaUsaha, sizeof(umkm.namaUsaha), stdin);
+    strtok(umkm.namaUsaha, "\n");
+
+    printf("Masukkan jenis usaha: ");
+    getchar();
+    fgets(umkm.jenisUsaha, sizeof(umkm.jenisUsaha), stdin);
+    strtok(umkm.jenisUsaha, "\n");
+
+    printf("Masukkan omzet: ");
+    scanf("%llu", &umkm.omzetUsaha);
+
+    printf("Masukkan laba bersih: ");
+    scanf("%llu", &umkm.labaBersih);
+
+    if(umkm.omzetUsaha > 400000000000){
+        umkm.badanUsaha = TRUE;
+        umkm.PPN = umkm.omzetUsaha * 11 / 100;
+        umkm.PPH = umkm.labaBersih * 22 / 100;
+    } else {
+        umkm.badanUsaha = FALSE;
+        umkm.PPN = 0;
+        umkm.PPH = umkm.omzetUsaha * 0.5 / 100;
+    }
+    printf("\n---REKAP PAJAK PENGHASILAN UMKM---\n");
+    printf("Nama Pengusaha  : %s\n", umkm.pengusaha.namaLengkap);
+    printf("NIK Pengusaha   : %llu\n", umkm.pengusaha.nik);
+    printf("Nama Usaha      : %s\n", umkm.namaUsaha);
+    printf("Jenis Usaha     : %s\n", umkm.jenisUsaha);
+    printf("Omzet Usaha     : Rp.%llu\n", umkm.omzetUsaha);
+    printf("Laba Bersih     : Rp.%llu\n", umkm.labaBersih);
+    printf("Potongan PPN    : Rp.%llu\n", umkm.PPN);
+    printf("Potongan PPh    : Rp.%llu\n", umkm.PPH);
+}
 //batas function lainnya
 int main(){
     int pilihan;
@@ -60,6 +109,7 @@ int main(){
 
         case 2:
             //function pajak penghasilan UMKM
+            hitungPajakUMKM();
             break;
 
         case 3:
