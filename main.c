@@ -1,7 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 //batas  include
+typedef enum{
+    FALSE = 0,
+    TRUE = 1
+}bool;
 
+typedef enum{
+    TK,
+    K,
+    KI,
+}PTKP;
+typedef struct{
+    char namaLengkap[50];
+    unsigned long long int nik;
+}user;
+
+typedef struct{
+    user pekerja;
+    bool statusPernikahan;
+    int jumlahTanggunganAnak;
+    unsigned long long int penghasilanBruto;
+    unsigned long long int penghasilanNeto;
+    unsigned long long int bonusTunjangan;
+    unsigned long long int penghasilanLainnya;
+    PTKP statusPTKP;
+    unsigned long long int tarifPPH;
+}pegawai;
+
+typedef struct{
+    user pengusaha;
+    char namaUsaha[50];
+    char jenisUsaha[50];
+    bool badanUsaha; //jika omzet diatas 4.8M, badan usaha kena pph 22%, individu progresif
+    unsigned long long int omzetUsaha;
+    unsigned long long int labaBersih;
+    unsigned long long int PPN; //hanya untuk usaha omzet diatas 4.8M
+    unsigned long long int PPH;
+}UMKM;
 //batas struct
 void printMainMenu(){
     puts("Pilih Menu: \n");
