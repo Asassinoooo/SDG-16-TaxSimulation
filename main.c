@@ -67,7 +67,6 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     strtok((umkm+umkmCount)->namaUsaha, "\n");
 
     printf("Masukkan jenis usaha: ");
-    getchar();
     fgets((umkm+umkmCount)->jenisUsaha, sizeof((umkm+umkmCount)->jenisUsaha), stdin);
     strtok((umkm+umkmCount)->jenisUsaha, "\n");
 
