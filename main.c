@@ -51,9 +51,96 @@ void printMainMenu(){
     printf("Pilihan anda: ");
 }
 
-void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
-	
+void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
+    if((pegawai + pegawaiCount)->penghasilanBruto <= 60*juta){
+        (pegawai + pegawaiCount)->tarifPPH += (pegawai + pegawaiCount)->penghasilanBruto * 5 / 100; 
+        }
+        else if((pegawai + pegawaiCount)->penghasilanBruto <= 250*juta){
+            (pegawai + pegawaiCount)->tarifPPH += 60*juta * 5 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 60*juta) * 15 / 100;
+        }
+        else if((pegawai + pegawaiCount)->penghasilanBruto <= 500*juta){
+            (pegawai + pegawaiCount)->tarifPPH += 60*juta * 5 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (250-60)*juta * 15 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 250*juta) * 25 / 100;
+        }
+        else if((pegawai + pegawaiCount)->penghasilanBruto <= 5000*juta){
+            (pegawai + pegawaiCount)->tarifPPH += 60*juta * 5 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (250-60)*juta * 15 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (500-250)*juta * 25 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 500*juta) * 30 / 100;
+        }
+        else {
+            (pegawai + pegawaiCount)->tarifPPH += 60*juta * 5 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (250-60)*juta * 15 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (500-250)*juta * 25 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += (5000-500)*juta * 30 / 100;
+            (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 5000*juta) * 35 / 100;
+        }
 }
+void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
+	pegawai = realloc(pegawai, pegawaiCount * sizeof(PEGAWAI));
+    pegawaiCount--;
+    printf("Masukkan nama lengkap: ");
+    getchar();
+    fgets((pegawai + pegawaiCount)->pekerja.namaLengkap, sizeof((pegawai + pegawaiCount)->pekerja.namaLengkap), stdin);
+    strtok((pegawai + pegawaiCount)->pekerja.namaLengkap, "\n");
+
+    printf("Masukkan NIK: ");
+    scanf("%llu", &(pegawai + pegawaiCount)->pekerja.nik);
+
+    printf("Masukkan status pernikahan \n(Tidak Kawin : 0, Kawin : 1, Kawin Istri Bekerja : 2): ");
+    scanf("%llu", &(pegawai + pegawaiCount)->statusPTKP);
+    if ((pegawai + pegawaiCount)->statusPTKP == K || (pegawai + pegawaiCount)->statusPTKP == KI) {
+        (pegawai + pegawaiCount)->statusPernikahan = TRUE;
+    } else {
+        (pegawai + pegawaiCount)->statusPernikahan = FALSE;
+    }
+
+    printf("Masukkan jumlah tanggungan anak (maksimal 3): ");
+    scanf("%llu", &(pegawai + pegawaiCount)->jumlahTanggunganAnak);
+
+    printf("Masukkan penghasilan bruto: ");
+    scanf("%llu", &(pegawai + pegawaiCount)->penghasilanBruto);
+
+    printf("Masukkan penghasilan lainnya: ");
+    scanf("%llu", &(pegawai + pegawaiCount)->penghasilanLainnya);
+
+    printf("Masukkan bonus/tunjangan: ");
+    scanf("%llu", &(pegawai + pegawaiCount)->bonusTunjangan);
+
+    (pegawai + pegawaiCount)->penghasilanNeto = (pegawai + pegawaiCount)->penghasilanBruto +
+                                                (pegawai + pegawaiCount)->penghasilanLainnya +
+                                                (pegawai + pegawaiCount)->bonusTunjangan;
+
+    if ((pegawai + pegawaiCount)->statusPTKP = TK) {
+        if ((pegawai + pegawaiCount)->penghasilanNeto < 54*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000) {
+        (pegawai + pegawaiCount)->tarifPPH = 0; }
+        else {
+            hitungPajakProgresifPegawai(pegawai, pegawaiCount);
+        }
+    } else if ((pegawai + pegawaiCount)->statusPTKP = K) {
+        if ((pegawai + pegawaiCount)->penghasilanNeto < 54*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000 + 4500000) {
+        (pegawai + pegawaiCount)->tarifPPH = 0; }
+        else {
+            hitungPajakProgresifPegawai(pegawai, pegawaiCount);
+        }
+    } else if ((pegawai + pegawaiCount)->statusPTKP = K) {
+        if ((pegawai + pegawaiCount)->penghasilanNeto < 108*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000 + 4500000) {
+        (pegawai + pegawaiCount)->tarifPPH = 0; }
+        else {
+            hitungPajakProgresifPegawai(pegawai, pegawaiCount);
+        }
+    }
+
+    printf("\n---REKAP PAJAK PENGHASILAN PEGAWAI---\n");
+    printf("Nama Pegawai    : %s\n", (pegawai + pegawaiCount)->pekerja.namaLengkap);
+    printf("NIK Pegawai     : %llu\n", (pegawai + pegawaiCount)->pekerja.nik);
+    printf("Penghasilan Neto: Rp.%llu\n", (pegawai + pegawaiCount)->penghasilanNeto);
+    printf("Potongan PPh    : Rp.%llu\n", (pegawai + pegawaiCount)->tarifPPH);
+    puts("");
+}
+
 void hitungPajakProgresif (UMKM* umkm, int umkmCount){
     if((umkm+umkmCount)->labaBersih <= 60*juta){
         (umkm+umkmCount)->PPH += (umkm+umkmCount)->labaBersih * 5 / 100; 
@@ -189,8 +276,14 @@ void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
     printf("Penghasilan Bersih  : Rp.%llu\n", (pegawai+index)->penghasilanNeto);
     printf("Tunjangan           : Rp.%llu\n", (pegawai+index)->bonusTunjangan);
     printf("Penghasilan Lainnya : Rp.%llu\n", (pegawai+index)->penghasilanLainnya);
-    printf("Status PTKP         : %s\n", (pegawai+index)->statusPTKP);
-    printf("Potongan PPh    : Rp.%llu\n", (pegawai+index)->tarifPPH);    
+    if ((pegawai+index)->statusPTKP == TK) {
+        printf("Status PTKP         : TK\n");
+    } else if ((pegawai+index)->statusPTKP == K) {
+        printf("Status PTKP         : K\n");
+    } else {
+        printf("Status PTKP         : KI\n");
+    } 
+    printf("Potongan PPh        : Rp.%llu\n", (pegawai+index)->tarifPPH);    
     puts("");	
 }
 void rekapitulasiPajakUMKM(UMKM * umkm,int index){
@@ -205,6 +298,7 @@ void rekapitulasiPajakUMKM(UMKM * umkm,int index){
     printf("Potongan PPh    : Rp.%llu\n", (umkm+index)->PPH);
     puts("");
 }
+
 //batas function lainnya
 int main(){
     int pilihan;
@@ -219,7 +313,7 @@ int main(){
             case 1:
                 //function pajak penghasilan
                 pegawaiCount++;
-                hitungPajakPegawai(pegawai,PegawaiCount);
+                hitungPajakPegawai(pegawai,pegawaiCount);
                 break;
 
             case 2:
