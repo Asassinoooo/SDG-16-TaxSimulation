@@ -102,37 +102,35 @@ int main(){
     UMKM * umkm = malloc(sizeof(UMKM));
     PEGAWAI * pegawai = malloc(sizeof(PEGAWAI));
     int umkmCount = 0, pegawaiCount = 0;
-    mainMenu: 
-    puts("Welcome to Simulasi Pajak Indonesia");
-    printMainMenu();
-    scanf("%d",&pilihan);
-    switch(pilihan){
-        case 1:
-            //function pajak penghasilan
-            pegawaiCount++;
+    while(pilihan != 4){
+        puts("Welcome to Simulasi Pajak Indonesia");
+        printMainMenu();
+        scanf("%d",&pilihan);
+        switch(pilihan){
+            case 1:
+                //function pajak penghasilan
+                pegawaiCount++;
+                break;
+
+            case 2:
+                //function pajak penghasilan UMKM
+                umkmCount++;
+                hitungPajakUMKM(umkm,umkmCount);
+                break;
+
+            case 3:
+                //function untuk print data yang sudah dikumpulkan
+                break;
+
+            case 4:
+                puts("program closed\n");
+                return 0;
+                break;
+
+            default:
+            puts("Invalid choice\n");
             break;
 
-        case 2:
-            //function pajak penghasilan UMKM
-            umkmCount++;
-            hitungPajakUMKM(umkm,umkmCount);
-            break;
-
-        case 3:
-            //function untuk print data yang sudah dikumpulkan
-            break;
-        
-        case 4:
-            puts("program closed\n");
-            return 0;
-            break;
-
-        default:
-        puts("Invalid choice\n");
-        goto mainMenu;
-        break;
-
-    }
-    goto mainMenu;
+    }}
     return 0;
 }
