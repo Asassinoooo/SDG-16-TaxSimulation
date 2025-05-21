@@ -14,3 +14,5 @@ Program Simulasi Pajak ini dirancang untuk membantu pengguna memahami cara perhi
 ### Tujuan:
 
 Mendukung keadilan sosial dan memastikan sistem perhitungan pajak yang lebih terbuka dan dapat dipertanggungjawabkan.
+
+![mermaid-diagram-2025-05-21-154117](https://hackmd.io/_uploads/BJRi4Gibeg.png)
