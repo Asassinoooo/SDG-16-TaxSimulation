@@ -51,6 +51,9 @@ void printMainMenu(){
     printf("Pilihan anda: ");
 }
 
+void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
+	
+}
 void hitungPajakProgresif (UMKM* umkm, int umkmCount){
     if((umkm+umkmCount)->labaBersih <= 60*juta){
         (umkm+umkmCount)->PPH += (umkm+umkmCount)->labaBersih * 5 / 100; 
@@ -176,9 +179,22 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     printf("Potongan PPh    : Rp.%llu\n", (umkm+umkmCount)->PPH);
     puts("");
 }
-
+void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
+    printf("\n---REKAP PAJAK PENGHASILAN PEGAWAI KE %d---\n", index+1);
+    printf("Nama Pegawai        : %s\n", (pegawai+index)->pekerja.namaLengkap);
+    printf("NIK Pegawai         : %llu\n", (pegawai+index)->pekerja.nik);
+    printf("Status Pernikahan   : %s\n", (pegawai+index)->statusPernikahan ? "True" : "False");
+    printf("Jumlah Tanggungan   : %d\n", (pegawai+index)->jumlahTanggunganAnak);
+    printf("Penghasilan Kotor   : Rp.%llu\n", (pegawai+index)->penghasilanBruto);
+    printf("Penghasilan Bersih  : Rp.%llu\n", (pegawai+index)->penghasilanNeto);
+    printf("Tunjangan           : Rp.%llu\n", (pegawai+index)->bonusTunjangan);
+    printf("Penghasilan Lainnya : Rp.%llu\n", (pegawai+index)->penghasilanLainnya);
+    printf("Status PTKP         : %s\n", (pegawai+index)->statusPTKP);
+    printf("Potongan PPh    : Rp.%llu\n", (pegawai+index)->tarifPPH);    
+    puts("");	
+}
 void rekapitulasiPajakUMKM(UMKM * umkm,int index){
-        printf("\n---REKAP PAJAK PENGHASILAN UMKM KE %d---\n", index+1);
+    printf("\n---REKAP PAJAK PENGHASILAN UMKM KE %d---\n", index+1);
     printf("Nama Pengusaha  : %s\n", (umkm+index)->pengusaha.namaLengkap);
     printf("NIK Pengusaha   : %llu\n", (umkm+index)->pengusaha.nik);
     printf("Nama Usaha      : %s\n", (umkm+index)->namaUsaha);
@@ -203,6 +219,7 @@ int main(){
             case 1:
                 //function pajak penghasilan
                 pegawaiCount++;
+                hitungPajakPegawai(pegawai,PegawaiCount);
                 break;
 
             case 2:
@@ -211,10 +228,12 @@ int main(){
                 hitungPajakUMKM(umkm,umkmCount);
                 break;
 
-            case 3:{
+            case 3:
+				//function rekapitulasi pajak
+					{
                 	int i;
                 	for(i=0;i<pegawaiCount;i++){
-                    
+                    	rekapitulasiPajakPegawai(pegawai,i);
                 	}
                		for(i=0;i<umkmCount;i++){
                     	rekapitulasiPajakUMKM(umkm,i);
