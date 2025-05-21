@@ -176,6 +176,19 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     printf("Potongan PPh    : Rp.%llu\n", (umkm+umkmCount)->PPH);
     puts("");
 }
+
+void rekapitulasiPajakUMKM(UMKM * umkm,int index){
+        printf("\n---REKAP PAJAK PENGHASILAN UMKM KE %d---\n", index+1);
+    printf("Nama Pengusaha  : %s\n", (umkm+index)->pengusaha.namaLengkap);
+    printf("NIK Pengusaha   : %llu\n", (umkm+index)->pengusaha.nik);
+    printf("Nama Usaha      : %s\n", (umkm+index)->namaUsaha);
+    printf("Jenis Usaha     : %s\n", (umkm+index)->jenisUsaha);
+    printf("Omzet Usaha     : Rp.%llu\n", (umkm+index)->omzetUsaha);
+    printf("Laba Bersih     : Rp.%llu\n", (umkm+index)->labaBersih);
+    printf("Potongan PPN    : Rp.%llu\n", (umkm+index)->PPN);
+    printf("Potongan PPh    : Rp.%llu\n", (umkm+index)->PPH);
+    puts("");
+}
 //batas function lainnya
 int main(){
     int pilihan;
@@ -198,9 +211,17 @@ int main(){
                 hitungPajakUMKM(umkm,umkmCount);
                 break;
 
-            case 3:
-                //function untuk print data yang sudah dikumpulkan
-                break;
+            case 3:{
+                	int i;
+                	for(i=0;i<pegawaiCount;i++){
+                    
+                	}
+               		for(i=0;i<umkmCount;i++){
+                    	rekapitulasiPajakUMKM(umkm,i);
+               		}
+                	        		
+					}
+				break;
 
             case 4:
                 puts("program closed\n");
