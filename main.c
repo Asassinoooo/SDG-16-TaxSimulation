@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+unsigned long long juta = 1000000;
 //batas  include
 typedef enum{
     FALSE = 0,
@@ -34,6 +34,7 @@ typedef struct{
     user pengusaha;
     char namaUsaha[50];
     char jenisUsaha[50];
+    int umurUsaha;
     bool badanUsaha; //jika omzet diatas 4.8M, badan usaha kena pph 22%, individu progresif
     unsigned long long int omzetUsaha;
     unsigned long long int labaBersih;
@@ -48,6 +49,34 @@ void printMainMenu(){
     puts("3. Rekapitulasi Pajak\n");
     puts("4. Exit Program\n");
     printf("Pilihan anda: ");
+}
+
+void hitungPajakProgresif (UMKM* umkm, int umkmCount){
+    if((umkm+umkmCount)->labaBersih <= 60*juta){
+        (umkm+umkmCount)->PPH += (umkm+umkmCount)->labaBersih * 5 / 100; 
+    }
+    else if((umkm+umkmCount)->labaBersih <= 250*juta){
+        (umkm+umkmCount)->PPH += 60*juta * 5 / 100;
+        (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 60*juta) * 15 / 100;
+    }
+    else if((umkm+umkmCount)->labaBersih <= 500*juta){
+        (umkm+umkmCount)->PPH += 60*juta * 5 / 100;
+        (umkm+umkmCount)->PPH += (250-60)*juta * 15 / 100;
+        (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 250*juta) * 25 / 100;
+    }
+    else if((umkm+umkmCount)->labaBersih <= 5000*juta){
+        (umkm+umkmCount)->PPH += 60*juta * 5 / 100;
+        (umkm+umkmCount)->PPH += (250-60)*juta * 15 / 100;
+        (umkm+umkmCount)->PPH += (500-250)*juta * 25 / 100;
+        (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 500*juta) * 30 / 100;
+    }
+    else {
+        (umkm+umkmCount)->PPH += 60*juta * 5 / 100;
+        (umkm+umkmCount)->PPH += (250-60)*juta * 15 / 100;
+        (umkm+umkmCount)->PPH += (500-250)*juta * 25 / 100;
+        (umkm+umkmCount)->PPH += (5000-500)*juta * 30 / 100;
+        (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 5000*juta) * 35 / 100;
+    }
 }
 
 void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
@@ -76,14 +105,65 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     printf("Masukkan laba bersih: ");
     scanf("%llu", &(umkm+umkmCount)->labaBersih);
 
-    if((umkm+umkmCount)->omzetUsaha > 4800000000){
-        (umkm+umkmCount)->badanUsaha = TRUE;
-        (umkm+umkmCount)->PPN = (umkm+umkmCount)->omzetUsaha * 11 / 100;
-        (umkm+umkmCount)->PPH = (umkm+umkmCount)->labaBersih * 22 / 100;
-    } else {
-        (umkm+umkmCount)->badanUsaha = FALSE;
-        (umkm+umkmCount)->PPN = 0;
-        (umkm+umkmCount)->PPH = (umkm+umkmCount)->omzetUsaha * 0.5 / 100;
+    printf("Apakah usaha anda milik Badan Usaha (Jika ya ketik '1', Jika perseorangan ketik '0'): ");
+    scanf("%d",&(umkm+umkmCount)->badanUsaha);
+
+    printf("Berapa tahun sudah anda merintis usaha anda: ");
+    scanf("%d",&(umkm+umkmCount)->umurUsaha);
+
+    if((umkm+umkmCount)->badanUsaha = TRUE){
+        if((umkm+umkmCount)->omzetUsaha >= 4800*juta){
+            (umkm+umkmCount)->PPH = (umkm+umkmCount)->labaBersih * 22 / 100;
+            (umkm+umkmCount)->PPN = (umkm+umkmCount)->omzetUsaha * 12 / 100; //ppn 12 persen
+        }
+        else if((umkm+umkmCount)->umurUsaha > 3){ //WP Usaha wajib pajak untuk diatas 3 tahun
+            if((umkm+umkmCount)->omzetUsaha < 500*juta ){ //omzet dibawah 500 juta bebas pajak
+                (umkm+umkmCount)->PPH = 0;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            else{
+            (umkm+umkmCount)->PPH = (umkm+umkmCount)->labaBersih * 22 / 100;
+            (umkm+umkmCount)->PPN = 0;
+            }
+        }
+        else{
+            if((umkm+umkmCount)->omzetUsaha < 500*juta ){ //omset dibawah 500 juta bebas pajak
+                (umkm+umkmCount)->PPH = 0;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            else{
+                (umkm+umkmCount)->PPH = (umkm+umkmCount)->omzetUsaha * 0.5/100;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            
+        }
+    }
+    else {
+        if((umkm+umkmCount)->omzetUsaha >= 4800*juta){
+            hitungPajakProgresif(umkm,umkmCount);
+            (umkm+umkmCount)->PPN = (umkm+umkmCount)->omzetUsaha * 12 / 100; //ppn 12 persen
+        }
+        else if((umkm+umkmCount)->umurUsaha > 3){ //WP Usaha wajib pajak untuk diatas 3 tahun
+            if((umkm+umkmCount)->omzetUsaha < 500*juta ){ //omzet dibawah 500 juta bebas pajak
+                (umkm+umkmCount)->PPH = 0;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            else{
+            hitungPajakProgresif(umkm,umkmCount);
+            (umkm+umkmCount)->PPN = 0;
+            }
+        }
+        else{
+            if((umkm+umkmCount)->omzetUsaha < 500*juta ){ //omset dibawah 500 juta bebas pajak
+                (umkm+umkmCount)->PPH = 0;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            else{
+                (umkm+umkmCount)->PPH = (umkm+umkmCount)->omzetUsaha * 0.5/100;
+                (umkm+umkmCount)->PPN = 0;
+            }
+            
+        }  
     }
     printf("\n---REKAP PAJAK PENGHASILAN UMKM---\n");
     printf("Nama Pengusaha  : %s\n", (umkm+umkmCount)->pengusaha.namaLengkap);
