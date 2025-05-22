@@ -9,7 +9,7 @@ typedef enum{
 }bool;
 
 typedef enum{
-    TK,
+    TK = 0,
     K,
     KI,
 }PTKP;
@@ -52,7 +52,7 @@ void printMainMenu(){
 }
 
 void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
-    if((pegawai + pegawaiCount)->penghasilanBruto <= 60*juta){
+        if((pegawai + pegawaiCount)->penghasilanBruto <= 60*juta){
         (pegawai + pegawaiCount)->tarifPPH += (pegawai + pegawaiCount)->penghasilanBruto * 5 / 100; 
         }
         else if((pegawai + pegawaiCount)->penghasilanBruto <= 250*juta){
@@ -79,7 +79,7 @@ void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
         }
 }
 void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
-	pegawai = realloc(pegawai, pegawaiCount * sizeof(PEGAWAI));
+    int ptkpvalue = 0;
     pegawaiCount--;
     printf("Masukkan nama lengkap: ");
     getchar();
@@ -90,11 +90,25 @@ void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
     scanf("%llu", &(pegawai + pegawaiCount)->pekerja.nik);
 
     printf("Masukkan status pernikahan \n(Tidak Kawin : 0, Kawin : 1, Kawin Istri Bekerja : 2): ");
-    scanf("%llu", &(pegawai + pegawaiCount)->statusPTKP);
-    if ((pegawai + pegawaiCount)->statusPTKP == K || (pegawai + pegawaiCount)->statusPTKP == KI) {
-        (pegawai + pegawaiCount)->statusPernikahan = TRUE;
-    } else {
-        (pegawai + pegawaiCount)->statusPernikahan = FALSE;
+    scanf("%d", &ptkpvalue);
+    switch(ptkpvalue){
+        case 0:
+            (pegawai + pegawaiCount)->statusPTKP = TK;
+            (pegawai + pegawaiCount)->statusPernikahan = FALSE;
+            break;
+
+        case 1: 
+            (pegawai + pegawaiCount)->statusPTKP = K;
+            (pegawai + pegawaiCount)->statusPernikahan = TRUE;
+            break;
+
+        case 2:
+            (pegawai + pegawaiCount)->statusPTKP = KI;
+            (pegawai + pegawaiCount)->statusPernikahan = TRUE;
+            break;
+
+        default:
+            break;
     }
 
     printf("Masukkan jumlah tanggungan anak (maksimal 3): ");
@@ -113,22 +127,25 @@ void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
                                                 (pegawai + pegawaiCount)->penghasilanLainnya +
                                                 (pegawai + pegawaiCount)->bonusTunjangan;
 
-    if ((pegawai + pegawaiCount)->statusPTKP = TK) {
+    if ((pegawai + pegawaiCount)->statusPTKP == TK) {
         if ((pegawai + pegawaiCount)->penghasilanNeto < 54*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000) {
         (pegawai + pegawaiCount)->tarifPPH = 0; }
         else {
+            (pegawai+pegawaiCount)->tarifPPH = 0;
             hitungPajakProgresifPegawai(pegawai, pegawaiCount);
         }
-    } else if ((pegawai + pegawaiCount)->statusPTKP = K) {
+    } else if ((pegawai + pegawaiCount)->statusPTKP == K) {
         if ((pegawai + pegawaiCount)->penghasilanNeto < 54*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000 + 4500000) {
         (pegawai + pegawaiCount)->tarifPPH = 0; }
         else {
+            (pegawai+pegawaiCount)->tarifPPH = 0;
             hitungPajakProgresifPegawai(pegawai, pegawaiCount);
         }
-    } else if ((pegawai + pegawaiCount)->statusPTKP = K) {
+    } else if ((pegawai + pegawaiCount)->statusPTKP == KI) {
         if ((pegawai + pegawaiCount)->penghasilanNeto < 108*juta + (pegawai + pegawaiCount)->jumlahTanggunganAnak*4500000 + 4500000) {
         (pegawai + pegawaiCount)->tarifPPH = 0; }
         else {
+            (pegawai+pegawaiCount)->tarifPPH = 0;
             hitungPajakProgresifPegawai(pegawai, pegawaiCount);
         }
     }
@@ -170,7 +187,6 @@ void hitungPajakProgresif (UMKM* umkm, int umkmCount){
 }
 
 void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
-    umkm = realloc(umkm,umkmCount*sizeof(UMKM));
     umkmCount--;
     printf("Masukkan nama lengkap: ");
     getchar();
@@ -230,6 +246,7 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     }
     else {
         if((umkm+umkmCount)->omzetUsaha >= 4800*juta){
+            (umkm+umkmCount)->PPH = 0;
             hitungPajakProgresif(umkm,umkmCount);
             (umkm+umkmCount)->PPN = (umkm+umkmCount)->omzetUsaha * 12 / 100; //ppn 12 persen
         }
@@ -239,6 +256,7 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
                 (umkm+umkmCount)->PPN = 0;
             }
             else{
+            (umkm+umkmCount)->PPH = 0;
             hitungPajakProgresif(umkm,umkmCount);
             (umkm+umkmCount)->PPN = 0;
             }
@@ -301,7 +319,7 @@ void rekapitulasiPajakUMKM(UMKM * umkm,int index){
 
 //batas function lainnya
 int main(){
-    int pilihan;
+    int pilihan=-1;
     UMKM * umkm = malloc(sizeof(UMKM));
     PEGAWAI * pegawai = malloc(sizeof(PEGAWAI));
     int umkmCount = 0, pegawaiCount = 0;
@@ -313,12 +331,14 @@ int main(){
             case 1:
                 //function pajak penghasilan
                 pegawaiCount++;
+                pegawai = realloc(pegawai, pegawaiCount * sizeof(PEGAWAI));
                 hitungPajakPegawai(pegawai,pegawaiCount);
                 break;
 
             case 2:
                 //function pajak penghasilan UMKM
                 umkmCount++;
+                umkm = realloc(umkm,umkmCount*sizeof(UMKM));
                 hitungPajakUMKM(umkm,umkmCount);
                 break;
 
@@ -342,8 +362,8 @@ int main(){
                 break;
 
             default:
-            puts("Invalid choice\n");
-            break;
+                puts("Invalid choice\n");
+                break;
 
     }}
     return 0;
