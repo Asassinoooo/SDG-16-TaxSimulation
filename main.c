@@ -6,17 +6,18 @@ unsigned long long juta = 1000000;
 typedef enum{
     FALSE = 0,
     TRUE = 1
-}bool;
+}bool; //enum berisi boolean untuk beberapa true or false datatype
 
 typedef enum{
     TK = 0,
     K,
     KI,
-}PTKP;
+}PTKP; //enum berisikan status PTKP yang menentukan jumlah penghasilan yang tidak dikenakan pajak ke pekerja
+
 typedef struct{
     char namaLengkap[50];
     unsigned long long int nik;
-}user;
+}user; //berisi informasi data pribadi pemilik umkm maupun pekerja
 
 typedef struct{
     user pekerja;
@@ -28,7 +29,7 @@ typedef struct{
     unsigned long long int penghasilanLainnya;
     PTKP statusPTKP;
     unsigned long long int tarifPPH;
-}PEGAWAI;
+}PEGAWAI;//berisi semua informasi tentang pegawai
 
 typedef struct{
     user pengusaha;
@@ -40,7 +41,7 @@ typedef struct{
     unsigned long long int labaBersih;
     unsigned long long int PPN; //hanya untuk usaha omzet diatas 4.8M
     unsigned long long int PPH;
-}UMKM;
+}UMKM;// berisi semua informasi tentang umkm
 //batas struct
 void printMainMenu(){
     puts("Pilih Menu: \n");
@@ -49,7 +50,7 @@ void printMainMenu(){
     puts("3. Rekapitulasi Pajak\n");
     puts("4. Exit Program\n");
     printf("Pilihan anda: ");
-}
+}//untuk print main menu
 
 void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
         if((pegawai + pegawaiCount)->penghasilanBruto <= 60*juta){
@@ -77,7 +78,8 @@ void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
             (pegawai + pegawaiCount)->tarifPPH += (5000-500)*juta * 30 / 100;
             (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 5000*juta) * 35 / 100;
         }
-}
+}// untuk pajak progresif dari pegawai
+
 void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
     int ptkpvalue = 0;
     pegawaiCount--;
@@ -156,7 +158,7 @@ void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
     printf("Penghasilan Neto: Rp.%llu\n", (pegawai + pegawaiCount)->penghasilanNeto);
     printf("Potongan PPh    : Rp.%llu\n", (pegawai + pegawaiCount)->tarifPPH);
     puts("");
-}
+}// fungsi input dan output serta kalkulasi untuk menghitung penghasilan pegawai
 
 void hitungPajakProgresif (UMKM* umkm, int umkmCount){
     if((umkm+umkmCount)->labaBersih <= 60*juta){
@@ -184,7 +186,7 @@ void hitungPajakProgresif (UMKM* umkm, int umkmCount){
         (umkm+umkmCount)->PPH += (5000-500)*juta * 30 / 100;
         (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 5000*juta) * 35 / 100;
     }
-}
+}// menghitung pajak progresif umkm untuk umkm milik pribadi yang sudah memiliki omset diatas 4.8 milliar
 
 void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     umkmCount--;
@@ -283,7 +285,8 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     printf("Potongan PPN    : Rp.%llu\n", (umkm+umkmCount)->PPN);
     printf("Potongan PPh    : Rp.%llu\n", (umkm+umkmCount)->PPH);
     puts("");
-}
+}//berisi input dan output serta kalkulasi untuk penghasilan umkm
+
 void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
     printf("\n---REKAP PAJAK PENGHASILAN PEGAWAI KE %d---\n", index+1);
     printf("Nama Pegawai        : %s\n", (pegawai+index)->pekerja.namaLengkap);
@@ -303,7 +306,7 @@ void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
     } 
     printf("Potongan PPh        : Rp.%llu\n", (pegawai+index)->tarifPPH);    
     puts("");	
-}
+}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari pegawai index tertentu yang tersimpan pada dynamic array
 void rekapitulasiPajakUMKM(UMKM * umkm,int index){
     printf("\n---REKAP PAJAK PENGHASILAN UMKM KE %d---\n", index+1);
     printf("Nama Pengusaha  : %s\n", (umkm+index)->pengusaha.namaLengkap);
@@ -315,12 +318,12 @@ void rekapitulasiPajakUMKM(UMKM * umkm,int index){
     printf("Potongan PPN    : Rp.%llu\n", (umkm+index)->PPN);
     printf("Potongan PPh    : Rp.%llu\n", (umkm+index)->PPH);
     puts("");
-}
+}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari umkm index tertentu yang tersimpan pada dynamic array
 
 //batas function lainnya
 int main(){
     int pilihan=-1;
-    UMKM * umkm = malloc(sizeof(UMKM));
+    UMKM * umkm = malloc(sizeof(UMKM)); //inisialisasi ukuran 1 untuk dynamic array berisi pegawai dan umkm
     PEGAWAI * pegawai = malloc(sizeof(PEGAWAI));
     int umkmCount = 0, pegawaiCount = 0;
     while(pilihan != 4){
@@ -331,14 +334,14 @@ int main(){
             case 1:
                 //function pajak penghasilan
                 pegawaiCount++;
-                pegawai = realloc(pegawai, pegawaiCount * sizeof(PEGAWAI));
+                pegawai = realloc(pegawai, pegawaiCount * sizeof(PEGAWAI));//realokasi memori mengikuti ukuran berapa kali fungsi dipanggil
                 hitungPajakPegawai(pegawai,pegawaiCount);
                 break;
 
             case 2:
                 //function pajak penghasilan UMKM
                 umkmCount++;
-                umkm = realloc(umkm,umkmCount*sizeof(UMKM));
+                umkm = realloc(umkm,umkmCount*sizeof(UMKM));//realokasi memori mengikuti ukuran berapa kali fungsi dipanggil
                 hitungPajakUMKM(umkm,umkmCount);
                 break;
 
