@@ -42,6 +42,8 @@ typedef struct{
     unsigned long long int PPN; //hanya untuk usaha omzet diatas 4.8M
     unsigned long long int PPH;
 }UMKM;// berisi semua informasi tentang umkm
+//struct dan enum dibuat oleh perry
+
 //batas struct
 void printMainMenu(){
     puts("Pilih Menu: \n");
@@ -78,7 +80,7 @@ void hitungPajakProgresifPegawai (PEGAWAI* pegawai, int pegawaiCount){
             (pegawai + pegawaiCount)->tarifPPH += (5000-500)*juta * 30 / 100;
             (pegawai + pegawaiCount)->tarifPPH += ((pegawai + pegawaiCount)->penghasilanBruto - 5000*juta) * 35 / 100;
         }
-}// untuk pajak progresif dari pegawai
+}// untuk pajak progresif dari pegawai dibuat oleh arkaan
 
 void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
     int ptkpvalue = 0;
@@ -158,7 +160,7 @@ void hitungPajakPegawai(PEGAWAI * pegawai, int pegawaiCount){
     printf("Penghasilan Neto: Rp.%llu\n", (pegawai + pegawaiCount)->penghasilanNeto);
     printf("Potongan PPh    : Rp.%llu\n", (pegawai + pegawaiCount)->tarifPPH);
     puts("");
-}// fungsi input dan output serta kalkulasi untuk menghitung penghasilan pegawai
+}// fungsi input dan output serta kalkulasi untuk menghitung penghasilan pegawai dibuat oleh arkaan
 
 void hitungPajakProgresif (UMKM* umkm, int umkmCount){
     if((umkm+umkmCount)->labaBersih <= 60*juta){
@@ -186,7 +188,7 @@ void hitungPajakProgresif (UMKM* umkm, int umkmCount){
         (umkm+umkmCount)->PPH += (5000-500)*juta * 30 / 100;
         (umkm+umkmCount)->PPH += ((umkm+umkmCount)->labaBersih - 5000*juta) * 35 / 100;
     }
-}// menghitung pajak progresif umkm untuk umkm milik pribadi yang sudah memiliki omset diatas 4.8 milliar
+}// menghitung pajak progresif umkm untuk umkm milik pribadi yang sudah memiliki omset diatas 4.8 milliar dibuat oleh perry
 
 void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     umkmCount--;
@@ -285,7 +287,7 @@ void hitungPajakUMKM(UMKM* umkm, int umkmCount) {
     printf("Potongan PPN    : Rp.%llu\n", (umkm+umkmCount)->PPN);
     printf("Potongan PPh    : Rp.%llu\n", (umkm+umkmCount)->PPH);
     puts("");
-}//berisi input dan output serta kalkulasi untuk penghasilan umkm
+}//berisi input dan output serta kalkulasi untuk penghasilan umkm dibuat oleh Michael dan Perry
 
 void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
     printf("\n---REKAP PAJAK PENGHASILAN PEGAWAI KE %d---\n", index+1);
@@ -306,7 +308,8 @@ void rekapitulasiPajakPegawai(PEGAWAI * pegawai,int index){
     } 
     printf("Potongan PPh        : Rp.%llu\n", (pegawai+index)->tarifPPH);    
     puts("");	
-}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari pegawai index tertentu yang tersimpan pada dynamic array
+}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari pegawai index tertentu yang tersimpan pada dynamic array dibuat oleh arya
+
 void rekapitulasiPajakUMKM(UMKM * umkm,int index){
     printf("\n---REKAP PAJAK PENGHASILAN UMKM KE %d---\n", index+1);
     printf("Nama Pengusaha  : %s\n", (umkm+index)->pengusaha.namaLengkap);
@@ -318,7 +321,7 @@ void rekapitulasiPajakUMKM(UMKM * umkm,int index){
     printf("Potongan PPN    : Rp.%llu\n", (umkm+index)->PPN);
     printf("Potongan PPh    : Rp.%llu\n", (umkm+index)->PPH);
     puts("");
-}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari umkm index tertentu yang tersimpan pada dynamic array
+}// fungsi yang dapat dipanggil berulang kali untuk mencetak rekapitulasi pajak dari umkm index tertentu yang tersimpan pada dynamic array dibuat oleh arya
 
 //batas function lainnya
 int main(){
@@ -370,4 +373,4 @@ int main(){
 
     }}
     return 0;
-}
+}//dibuat oleh perry
