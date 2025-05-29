@@ -15,5 +15,4 @@ Program Simulasi Pajak ini dirancang untuk membantu pengguna memahami cara perhi
 
 Mendukung keadilan sosial dan memastikan sistem perhitungan pajak yang lebih terbuka dan dapat dipertanggungjawabkan.
 
-![mermaid-diagram-2025-05-21-154117](https://hackmd.io/_uploads/BJRi4Gibeg.png)
-![Flowchart PPh](https://github.com/user-attachments/assets/a238aee0-bad5-4d53-8201-800c607ebcd9)
+![Flowchart PPh1.drawio](https://hackmd.io/_uploads/rywwk6Sfxe.png)
