@@ -363,6 +363,8 @@ int main(){
 				break;
 
             case 4:
+                free(umkm);
+                free(pegawai);
                 puts("program closed\n");
                 return 0;
                 break;
